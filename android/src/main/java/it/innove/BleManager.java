@@ -474,7 +474,33 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 		} else
 			callback.invoke("Peripheral not found");
 	}
-
+	
+	@ReactMethod
+	public void refreshAllGatts() {
+		for (Peripheral peripheral : peripherals.values()) {
+			if (peripheral.isConnected() && peripheral.gatt != null) {
+				BluetoothGatt localBluetoothGatt = peripheral.gatt;
+				Method localMethod = null;
+				try {
+					localMethod = localBluetoothGatt.getClass().getMethod("refresh", new Class[0]);
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				}
+				if (localMethod != null) {
+					boolean bool = false;
+					try {
+						bool = ((Boolean) localMethod.invoke(localBluetoothGatt, new Object[0])).booleanValue();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+					Log.d(LOG_TAG, "refreshAllGatts worked? " + bool);
+				}
+			}
+		}
+	}
+	
 	private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
 	public static String bytesToHex(byte[] bytes) {
