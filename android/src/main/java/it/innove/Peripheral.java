@@ -38,7 +38,7 @@ public class Peripheral extends BluetoothGattCallback {
 	private boolean connected = false;
 	private ReactContext reactContext;
 
-	private BluetoothGatt gatt;
+	BluetoothGatt gatt;
 
 	private Callback connectCallback;
 	private Callback retrieveServicesCallback;
