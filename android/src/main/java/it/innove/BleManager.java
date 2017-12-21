@@ -478,7 +478,7 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 	}
 
 	@ReactMethod
-	public void refreshAllGatts() {
+	public void refreshAllGatts(Promise promise) {
 		for (Peripheral peripheral : peripherals.values()) {
 			if (peripheral.isConnected() && peripheral.gatt != null) {
 				BluetoothGatt localBluetoothGatt = peripheral.gatt;
@@ -487,6 +487,7 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 					localMethod = localBluetoothGatt.getClass().getMethod("refresh", new Class[0]);
 				} catch (NoSuchMethodException e) {
 					e.printStackTrace();
+					promise.reject(e);
 				}
 				if (localMethod != null) {
 					boolean bool = false;
@@ -494,13 +495,16 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 						bool = ((Boolean) localMethod.invoke(localBluetoothGatt, new Object[0])).booleanValue();
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
+						promise.reject(e);
 					} catch (InvocationTargetException e) {
 						e.printStackTrace();
+						promise.reject(e);
 					}
 					Log.d(LOG_TAG, "refreshAllGatts worked? " + bool);
 				}
 			}
 		}
+		promise.resolve(true);
 	}
 
 	private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
