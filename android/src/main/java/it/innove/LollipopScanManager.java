@@ -22,6 +22,8 @@ import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class LollipopScanManager extends ScanManager {
 
+  public static final String LOG_TAG = "logs";
+
 	public LollipopScanManager(ReactApplicationContext reactContext, BleManager bleManager) {
 		super(reactContext, bleManager);
 	}
@@ -102,7 +104,7 @@ public class LollipopScanManager extends ScanManager {
 					String address = result.getDevice().getAddress();
           Peripheral peripheral = null;
 
-          Log.i(LOG_TAG, String.format("DiscoverPeripheral:  %1$s %2$s", device.getName(), address));
+          Log.i(LOG_TAG, String.format("DiscoverPeripheral:  %1$s %2$s", result.getDevice().getName(), address));
 
 					if (!bleManager.peripherals.containsKey(address)) {
 						peripheral = new Peripheral(result.getDevice(), result.getRssi(), result.getScanRecord().getBytes(), reactContext);

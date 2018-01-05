@@ -9,6 +9,8 @@ import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 public class LegacyScanManager extends ScanManager {
 
+  public static final String LOG_TAG = "logs";
+
 	public LegacyScanManager(ReactApplicationContext reactContext, BleManager bleManager) {
 		super(reactContext, bleManager);
 	}
