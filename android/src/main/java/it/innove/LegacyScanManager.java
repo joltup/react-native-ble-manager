@@ -32,8 +32,8 @@ public class LegacyScanManager extends ScanManager {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							Log.i(bleManager.LOG_TAG, "DiscoverPeripheral: " + device.getName());
 							String address = device.getAddress();
+              Log.i(LOG_TAG, String.format("DiscoverPeripheral:  %1$s %2$s", device.getName(), address));
 							Peripheral peripheral;
 
 							if (!bleManager.peripherals.containsKey(address)) {

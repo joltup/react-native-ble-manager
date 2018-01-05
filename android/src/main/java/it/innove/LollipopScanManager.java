@@ -99,9 +99,10 @@ public class LollipopScanManager extends ScanManager {
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					Log.i(bleManager.LOG_TAG, "DiscoverPeripheral: " + result.getDevice().getName());
 					String address = result.getDevice().getAddress();
-                    Peripheral peripheral = null;
+          Peripheral peripheral = null;
+
+          Log.i(LOG_TAG, String.format("DiscoverPeripheral:  %1$s %2$s", device.getName(), address));
 
 					if (!bleManager.peripherals.containsKey(address)) {
 						peripheral = new Peripheral(result.getDevice(), result.getRssi(), result.getScanRecord().getBytes(), reactContext);

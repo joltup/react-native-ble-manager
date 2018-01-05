@@ -307,8 +307,8 @@ class BleManager extends ReactContextBaseJavaModule implements ActivityEventList
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							Log.i(LOG_TAG, "DiscoverPeripheral: " + device.getName());
-							String address = device.getAddress();
+              String address = device.getAddress();
+							Log.i(LOG_TAG, String.format("DiscoverPeripheral:  %1$s %2$s", device.getName(), address));
 
 							if (!peripherals.containsKey(address)) {
 								Peripheral peripheral = new Peripheral(device, rssi, scanRecord, reactContext);
