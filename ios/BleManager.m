@@ -320,7 +320,7 @@ RCT_EXPORT_METHOD(stopScan:(nonnull RCTResponseSenderBlock)callback)
     [peripherals addObject:peripheral];
     [peripheral setAdvertisementData:advertisementData RSSI:RSSI];
         
-    NSLog(@"Discover peripheral: %@", [peripheral name]);
+    NSLog(@"Discover peripheral: %@ %@", [peripheral name], [peripheral uuidAsString]);
     if (hasListeners) {
         [self sendEventWithName:@"BleManagerDiscoverPeripheral" body:[peripheral asDictionary]];
     }
