@@ -363,7 +363,7 @@ RCT_EXPORT_METHOD(connect:(NSString *)peripheralUUID callback:(nonnull RCTRespon
 RCT_EXPORT_METHOD(disconnect:(NSString *)peripheralUUID  callback:(nonnull RCTResponseSenderBlock)callback)
 {
     CBPeripheral *peripheral = [self findPeripheralByUUID:peripheralUUID];
-    if (peripheral) {
+    if (peripheral && peripheral.state == CBPeripheralStateConnected) {
         NSLog(@"Disconnecting from peripheral with UUID : %@", peripheralUUID);
         
         if (peripheral.services != nil) {
@@ -383,7 +383,7 @@ RCT_EXPORT_METHOD(disconnect:(NSString *)peripheralUUID  callback:(nonnull RCTRe
         callback(@[]);
         
     } else {
-        NSString *error = [NSString stringWithFormat:@"Could not find peripheral %@.", peripheralUUID];
+        NSString *error = [NSString stringWithFormat:@"Peripheral not found"];
         NSLog(@"%@", error);
         callback(@[error]);
     }
