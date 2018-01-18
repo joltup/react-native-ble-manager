@@ -107,8 +107,10 @@ public class Peripheral extends BluetoothGattCallback {
 				sendConnectionEvent(device, "BleManagerDisconnectPeripheral");
 				Log.d(LOG_TAG, "Error on disconnect", e);
 			}
-		} else
+		} else {
 			Log.d(LOG_TAG, "GATT is null");
+			sendConnectionEvent(device, "BleManagerDisconnectPeripheral");
+		}
 	}
 
 	public WritableMap asWritableMap() {
