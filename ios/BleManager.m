@@ -557,12 +557,13 @@ RCT_EXPORT_METHOD(retrieveServices:(NSString *)deviceUUID callback:(nonnull RCTR
     CBPeripheral *peripheral = [self findPeripheralByUUID:deviceUUID];
     
     if (peripheral && peripheral.state == CBPeripheralStateConnected) {
+        CBUUID *joltServices = [CBUUID UUIDWithString:@"ff5fffff-d7e2-4d93-8842-a7c4a57dfb07"];
+        NSArray *services = [NSArray arrayWithObjects:joltServices, nil];
         [retrieveServicesCallbacks setObject:callback forKey:[peripheral uuidAsString]];
-        [peripheral discoverServices:nil];
+        [peripheral discoverServices:services];
     } else {
         callback(@[@"Peripheral not found or not connected"]);
     }
-    
 }
 
 RCT_EXPORT_METHOD(startNotification:(NSString *)deviceUUID serviceUUID:(NSString*)serviceUUID  characteristicUUID:(NSString*)characteristicUUID callback:(nonnull RCTResponseSenderBlock)callback)
