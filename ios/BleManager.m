@@ -670,60 +670,6 @@ RCT_EXPORT_METHOD(stopNotification:(NSString *)deviceUUID serviceUUID:(NSString*
         NSLog(@"Error: %@", error);
     }
 
-    NSString *peripheralUUIDString = [peripheral uuidAsString];
-
-    NSString *errorStr = [NSString stringWithFormat:@"Peripheral did disconnect: %@", peripheralUUIDString];
-
-    RCTResponseSenderBlock connectCallback = [connectCallbacks valueForKey:peripheralUUIDString];
-    if (connectCallback) {
-        connectCallback(@[errorStr]);
-        [connectCallbacks removeObjectForKey:peripheralUUIDString];
-    }
-
-    RCTResponseSenderBlock readRSSICallback = [readRSSICallbacks valueForKey:peripheralUUIDString];
-    if (readRSSICallback) {
-        readRSSICallback(@[errorStr]);
-        [readRSSICallbacks removeObjectForKey:peripheralUUIDString];
-    }
-
-    RCTResponseSenderBlock retrieveServicesCallback = [retrieveServicesCallbacks valueForKey:peripheralUUIDString];
-    if (retrieveServicesCallback) {
-        retrieveServicesCallback(@[errorStr]);
-        [retrieveServicesCallbacks removeObjectForKey:peripheralUUIDString];
-    }
-
-    for (id key in readCallbacks) {
-        if ([key hasPrefix:peripheralUUIDString]) {
-            RCTResponseSenderBlock callback = [readCallbacks objectForKey:key];
-            callback(@[errorStr]);
-            [readCallbacks removeObjectForKey:key];
-        }
-    }
-
-    for (id key in writeCallbacks) {
-        if ([key hasPrefix:peripheralUUIDString]) {
-            RCTResponseSenderBlock callback = [writeCallbacks objectForKey:key];
-            callback(@[errorStr]);
-            [writeCallbacks removeObjectForKey:key];
-        }
-    }
-
-    for (id key in notificationCallbacks) {
-        if ([key hasPrefix:peripheralUUIDString]) {
-            RCTResponseSenderBlock callback = [notificationCallbacks objectForKey:key];
-            callback(@[errorStr]);
-            [notificationCallbacks removeObjectForKey:key];
-        }
-    }
-
-    for (id key in stopNotificationCallbacks) {
-        if ([key hasPrefix:peripheralUUIDString]) {
-            RCTResponseSenderBlock callback = [stopNotificationCallbacks objectForKey:key];
-            callback(@[errorStr]);
-            [stopNotificationCallbacks removeObjectForKey:key];
-        }
-    }
-
     if (hasListeners) {
         [self sendEventWithName:@"BleManagerDisconnectPeripheral" body:@{@"peripheral": [peripheral uuidAsString]}];
     }
