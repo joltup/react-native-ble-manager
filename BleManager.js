@@ -101,6 +101,18 @@ class BleManager  {
     });
   }
 
+  removeBond(peripheralId) {
+    return new Promise((fulfill, reject) => {
+      bleManager.removeBond(peripheralId, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          fulfill();
+        }
+      });
+    });
+  }
+
   disconnect(peripheralId) {
     return new Promise((fulfill, reject) => {
       bleManager.disconnect(peripheralId, (error) => {
@@ -164,17 +176,17 @@ class BleManager  {
 
       // (ANDROID) Match as many advertisement per filter as hw could allow
       // dependes on current capability and availability of the resources in hw.
-      if(scanningOptions.numberOfMatches == null){
+      if (scanningOptions.numberOfMatches == null) {
           scanningOptions.numberOfMatches = 3
       }
 
       //(ANDROID) Defaults to MATCH_MODE_AGGRESSIVE
-      if(scanningOptions.matchMode == null){
+      if (scanningOptions.matchMode == null) {
           scanningOptions.matchMode = 1
       }
 
       //(ANDROID) Defaults to SCAN_MODE_LOW_POWER on android
-      if(scanningOptions.scanMode == null){
+      if (scanningOptions.scanMode == null) {
           scanningOptions.scanMode = 0;
       }
 
@@ -279,6 +291,18 @@ class BleManager  {
       } else {
         return false;
       }
+    });
+  }
+
+  requestMTU(peripheralId, mtu) {
+    return new Promise((fulfill, reject) => {
+      bleManager.requestMTU(peripheralId, mtu, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          fulfill();
+        }
+      });
     });
   }
 }
